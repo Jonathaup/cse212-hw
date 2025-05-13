@@ -1,16 +1,23 @@
 public class Person
 {
-    public readonly string Name;
-    public int Turns { get; set; }
+    public string Name { get; }
+    public int Turns { get; }
 
-    internal Person(string name, int turns)
+    public Person(string name, int turns)
     {
         Name = name;
         Turns = turns;
     }
 
-    public override string ToString()
+    public Person DecrementTurn()
     {
-        return Turns <= 0 ? $"({Name}:Forever)" : $"({Name}:{Turns})";
+        // Solo decrementa si tiene turnos finitos (> 0)
+        if (Turns > 1)
+            return new Person(Name, Turns - 1);
+        else
+            return this; // turns == 1 será descartado luego, no reinserta
     }
+
+    public bool HasInfiniteTurns => Turns <= 0;
+    public bool HasTurnsLeft => HasInfiniteTurns || Turns > 1;
 }

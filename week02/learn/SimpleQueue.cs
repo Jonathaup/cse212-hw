@@ -10,7 +10,7 @@
         queue.Enqueue(100);
         var value = queue.Dequeue();
         Console.WriteLine(value);
-        // Defect(s) Found:
+    
 
         Console.WriteLine("------------");
 
@@ -22,20 +22,16 @@
         queue.Enqueue(200);
         queue.Enqueue(300);
         queue.Enqueue(400);
-        value = queue.Dequeue();
-        Console.WriteLine(value);
-        value = queue.Dequeue();
-        Console.WriteLine(value);
-        value = queue.Dequeue();
-        Console.WriteLine(value);
-        // Defect(s) Found: 
-
+        Console.WriteLine(queue.Dequeue());
+        Console.WriteLine(queue.Dequeue());
+        Console.WriteLine(queue.Dequeue());
+        
         Console.WriteLine("------------");
 
         // Test 3
         // Scenario: Dequeue from an empty Queue
         // Expected Result: An exception should be raised
-        Console.WriteLine("Test 3");
+         Console.WriteLine("Test 3");
         queue = new SimpleQueue();
         try {
             queue.Dequeue();
@@ -44,7 +40,7 @@
         catch (IndexOutOfRangeException) {
             Console.WriteLine("I got the exception as expected.");
         }
-        // Defect(s) Found: 
+
     }
 
     private readonly List<int> _queue = new();
