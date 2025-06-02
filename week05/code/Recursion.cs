@@ -12,11 +12,18 @@ public static class Recursion
     /// to identify a base case (terminating case).  If the value of
     /// n <= 0, just return 0.   A loop should not be used.
     /// </summary>
-    public static int SumSquaresRecursive(int n)
+   public static int SumSquaresRecursive(int n)
+{
+    // Base case: if n is less than or equal to 0, return 0
+    if (n <= 0)
     {
-        // TODO Start Problem 1
         return 0;
     }
+
+    // Recursive call: n^2 plus the sum of squares of the previous numbers
+    return (n * n) + SumSquaresRecursive(n - 1);
+}
+
 
     /// <summary>
     /// #############
@@ -38,9 +45,25 @@ public static class Recursion
     /// and the length of the letters list).
     /// </summary>
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
+{
+    // Base case: if the current word has reached the desired size, add it to results
+    if (word.Length == size)
     {
-        // TODO Start Problem 2
+        results.Add(word);
+        return;
     }
+
+    // Recursive case: try each letter that has not been used yet
+    foreach (char c in letters)
+    {
+        // Skip the letter if it's already in the current word
+        if (!word.Contains(c))
+        {
+            PermutationsChoose(results, letters, size, word + c);
+        }
+    }
+}
+
 
     /// <summary>
     /// #############
@@ -86,6 +109,12 @@ public static class Recursion
     /// </summary>
     public static decimal CountWaysToClimb(int s, Dictionary<int, decimal>? remember = null)
     {
+    // Initialize the memoization dictionary if it's null
+        if (remember == null)
+        {
+            remember = new Dictionary<int, decimal>();
+        }
+
         // Base Cases
         if (s == 0)
             return 0;
@@ -96,10 +125,20 @@ public static class Recursion
         if (s == 3)
             return 4;
 
-        // TODO Start Problem 3
+        // Check if the result for 's' has already been computed
+        if (remember.ContainsKey(s))
+        {
+            return remember[s];
+        }
 
-        // Solve using recursion
-        decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
+        // Recursive case with memoization
+        decimal ways = CountWaysToClimb(s - 1, remember) +
+                    CountWaysToClimb(s - 2, remember) +
+                    CountWaysToClimb(s - 3, remember);
+
+        // Store the computed result for 's' in the dictionary
+        remember[s] = ways;
+
         return ways;
     }
 
@@ -117,9 +156,24 @@ public static class Recursion
     /// some of the string functions like IndexOf and [..X] / [X..] to be useful in solving this problem.
     /// </summary>
     public static void WildcardBinary(string pattern, List<string> results)
+{
+    // Base case: if there's no wildcard '*', add the pattern to the results
+    if (!pattern.Contains('*'))
     {
-        // TODO Start Problem 4
+        results.Add(pattern);
+        return;
     }
+
+    // Find the index of the first wildcard
+    int index = pattern.IndexOf('*');
+
+    // Replace the wildcard with '0' and recurse
+    WildcardBinary(pattern.Substring(0, index) + "0" + pattern.Substring(index + 1), results);
+
+    // Replace the wildcard with '1' and recurse
+    WildcardBinary(pattern.Substring(0, index) + "1" + pattern.Substring(index + 1), results);
+}
+
 
     /// <summary>
     /// Use recursion to insert all paths that start at (0,0) and end at the
